@@ -12,6 +12,8 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "types": ["node"],
+    "esModuleInterop": true,
     "lib": [
       "es2017",
       "dom"
