@@ -1,4 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","1807","parametrized method","chromium","2025-09-30","passed","2025-09-30","","pageObject.spec.ts","",""
-"","1750","Navigate to Forms Layout","chromium","2025-09-30","passed","2025-09-30","","pageObject.spec.ts","",""
-"","7511","data picker","chromium","2025-09-30","passed","2025-09-30","","pageObject.spec.ts","",""

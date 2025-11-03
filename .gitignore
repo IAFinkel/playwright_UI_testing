@@ -49,3 +49,5 @@ node_modules/
 /playwright/.cache/
 .env
 playwright-prod.config.ts
+allure-results/
+allure-report/
