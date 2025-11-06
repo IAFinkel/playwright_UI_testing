@@ -31,6 +31,7 @@ export default defineConfig<TestOptions>({
         uploadToArgos: !!process.env.CI,
       },
     ],
+    ["html", { outputFolder: "playwright-report", open: "never" }],
   ],
 
   use: {
