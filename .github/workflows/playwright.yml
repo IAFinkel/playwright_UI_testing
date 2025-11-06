@@ -16,6 +16,13 @@ jobs:
         cache: 'npm' 
     - name: Install dependencies
       run: npm ci --force
+    - name: Create .env from secrets
+      run: |
+          cat > .env <<EOF
+          USERNAME=${{ secrets.TEST_USERNAME }}
+          PASSWORD=${{ secrets.TEST_PASSWORD }}
+          TEST_ENV=qa
+          EOF
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps --force
     - name: Run Playwright tests
