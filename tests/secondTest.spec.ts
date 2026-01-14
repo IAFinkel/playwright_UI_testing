@@ -48,7 +48,7 @@ test.describe("DOM", () => {
 
     await page.getByText("Using the Grid").click();
 
-    await page.getByTitle("IoT Dashboard").click();
+   // await page.getByTitle("IoT Dashboard").click();
 
     //By test id:
     //go to the source code and find were the element is located (.html file)
