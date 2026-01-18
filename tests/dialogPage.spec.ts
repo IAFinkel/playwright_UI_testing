@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { PageManager } from "../page-objects/pageManager";
 import { DialogButton, DialogCloseBtn } from "../page-objects/dialogPage";
+import { faker } from "@faker-js/faker";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -106,20 +107,47 @@ test("Dialog with esc btn disabled ", async ({ page }) => {
 test("Dialog returns entered name", async ({ page }) => {
   const pageManager = new PageManager(page);
   await pageManager.navigateTo().dialogPage();
-  let i = 0;
-  while (i < 4) {
-    i++
+
+  const iterations = 4;
+  const names: string[] = [];
+
+  for (let i = 0; i<iterations; i++) {
+    const fullName = faker.person.fullName();
+    names.push(fullName)
     await pageManager
       .onDialogPage()
       .openDialog(DialogButton.WithEnterNameField);
     await expect(pageManager.onDialogPage().dialogTitle).toHaveText(
       "Enter your name"
     );
-    await pageManager.onDialogPage().fillTheNameForm("Ilia");
+    await pageManager.onDialogPage().fillTheNameForm(fullName);
     await pageManager.onDialogPage().closeDialog(DialogCloseBtn.Submit)
   }
 
-  const namesLocator = page.locator('.form-input-card').getByRole('listitem')
-  const names: string[] = await namesLocator.allTextContents();
-  expect(names).toEqual(["Ilia", "Ilia", "Ilia", "Ilia"])
+  const uiNames = (await page.locator('.form-input-card').getByRole('listitem').allTextContents())
+  .map(name => name.trim())
+  
+  await expect(page.locator('.form-input-card').getByRole('listitem')).toHaveCount(iterations)
+  expect(names).toEqual(uiNames)
+});
+
+test("Dialog does not add names when canceled", async ({ page }) => {
+  const pageManager = new PageManager(page);
+  await pageManager.navigateTo().dialogPage();
+
+  const iterations = 4;
+
+  for (let i = 0; i<iterations; i++) {
+    const fullName = faker.person.fullName();
+    await pageManager
+      .onDialogPage()
+      .openDialog(DialogButton.WithEnterNameField);
+    await expect(pageManager.onDialogPage().dialogTitle).toHaveText(
+      "Enter your name"
+    );
+    await pageManager.onDialogPage().fillTheNameForm(fullName);
+    await pageManager.onDialogPage().closeDialog(DialogCloseBtn.Cancel)
+  }
+  
+  await expect(page.locator('.form-input-card').getByRole('listitem')).toHaveCount(0)
 });
