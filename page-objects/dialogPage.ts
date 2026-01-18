@@ -13,7 +13,9 @@ export enum DialogButton {
 
 export enum DialogCloseBtn {
     Dismiss = "Dismiss Dialog",
-    Close = "Close Dialog"
+    Close = "Close Dialog",
+    Cancel = "Cancel",
+    Submit = "Submit"
 }
 
 export class DialogPage extends Helper{
@@ -24,12 +26,17 @@ export class DialogPage extends Helper{
     dialogTitle = this.page.locator("nb-card-header").last();
     colorThemeBtn = this.page.getByText("Light");
 
+
     async openDialog(dialogType: DialogButton) {
     await this.page.getByRole('button', {name: dialogType, exact: true}).click()
   }
 
     async closeDialog(dialogType: DialogCloseBtn){
        await this.page.getByRole('button', {name: dialogType, exact: true}).click()
+    }
+
+    async fillTheNameForm(fullName: string){
+        await this.page.getByPlaceholder("Name").fill(fullName)
     }
 
     get DialogTitle(){
